@@ -3,7 +3,11 @@
 
 <ul>
 {% for choice in question.choice_set.all %}
-    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
+    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}
+        {% for vote in choice.choice_set.all %}
+        <p>{{vote.was_published_recently}}</p>
+        {% endfor %}
+    </li>
 {% endfor %}
 </ul>
 

@@ -3,7 +3,8 @@ from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.views import generic
 from django.utils import timezone
-from .models import Choice, Question
+import datetime
+from .models import Choice, Question , Vote
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -34,6 +35,7 @@ def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
+
     except (KeyError, Choice.DoesNotExist):
         # Redisplay the question voting form.
         return render(request, 'polls/detail.html', {
@@ -42,6 +44,8 @@ def vote(request, question_id):
         })
     else:
         selected_choice.votes += 1
+        selected_choice.vote_set.create(time = timezone() - datetime.timedelta(days=1))
+        
         selected_choice.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
