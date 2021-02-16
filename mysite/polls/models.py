@@ -2,7 +2,6 @@ import datetime
 from django.db import models
 from django.utils import timezone
 
-
 # Create your models here.
 
 class Question(models.Model):
@@ -39,23 +38,22 @@ class Question(models.Model):
         recent_question = Question(pub_date=time)
         self.assertIs(recent_question.was_published_recently(), True)
 
+
 class Choice(models.Model):
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(max_length=200)
+
     votes = models.IntegerField(default=0)
-   
-    def whenVote(self):
-        now = timezone.now()
-        self.listTime += now + ' ' 
 
     def __str__(self):
         return self.choice_text
 
 class Vote(models.Model):
+    
+    time = models.DateTimeField('pub date',auto_now_add=True)
     choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
-    time = models.DateTimeField(auto_now_add=True)
 
-    def was_published_recently(self):
-        now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.time <= now
+    def __str__(self):
+        return str(self.time)
+
