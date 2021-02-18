@@ -6,15 +6,15 @@ from django.utils import timezone
 
 class Question(models.Model):
 
-    question_text = models.CharField(max_length=200)
-    pub_date = models.DateTimeField('date published')
+    question_text = models.CharField(max_length=200) #เก็บคำถาม
+    pub_date = models.DateTimeField('date published') #เก็บวันที่ทำการสร้างคำถาม
 
     def __str__(self):
-        return self.question_text
+        return self.question_text #แสดงคำถาม
 
     def was_published_recently(self):
         now = timezone.now()
-        return now - datetime.timedelta(days=1) <= self.pub_date <= now
+        return now - datetime.timedelta(days=1) <= self.pub_date <= now #ข้อความถูกสร้างตอนปัจจุบันหรือเปล่า
 
     was_published_recently.admin_order_field = 'pub_date'
     was_published_recently.boolean = True
@@ -41,19 +41,18 @@ class Question(models.Model):
 
 class Choice(models.Model):
 
-    question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    choice_text = models.CharField(max_length=200)
-
-    votes = models.IntegerField(default=0)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE) #บอกว่าเป็นตัวเลือกของคำถามข้อไหน
+    choice_text = models.CharField(max_length=200) #เก็บชื่อตัวเลือก
+    votes = models.IntegerField(default=0) #จำนวนการโหวต
 
     def __str__(self):
-        return self.choice_text
+        return self.choice_text #แสดงชื่อตัวเลือก
 
 class Vote(models.Model):
     
-    time = models.DateTimeField('pub date',auto_now_add=True)
-    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    time = models.DateTimeField('pub date',auto_now_add=True)  # attribute  สำหรับเก็บค่าเวลา
+    choice = models.ForeignKey(Choice, on_delete=models.CASCADE) # attribute ใช้เเสดงความสัมพันธ์บอกว่า Vote นี้อยู่ใน choice ไหน
 
     def __str__(self):
-        return str(self.time.date())+" "+str(self.time.strftime("%H:%M:%S"))
+        return str(self.time.date())+" "+str(self.time.strftime("%H:%M:%S")) #แสดงผลลัพธ์ในรูปของ ชม.:นาที:วินาที
 

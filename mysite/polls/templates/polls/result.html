@@ -2,11 +2,11 @@
 <h1>{{ question.question_text }}</h1>
 
 <ul>
-{% for choice in question.choice_set.all %}
+{% for choice in question.choice_set.all %} <!-- สร้างlist ของ choice เเล้วบอกจำนวน vote -->
     <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}
     </li>
-    {% for time in choice.vote_set.all %}
-        <p>{{time}}</p>
+    {% for time in choice.vote_set.all %} <!--บอกเวลาของเเต่ละ Vote-->
+        <p>{{time}}</p> 
     {% endfor %}
 {% endfor %}
 </ul>
