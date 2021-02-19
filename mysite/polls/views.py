@@ -33,6 +33,8 @@ class ResultsView(generic.DetailView):
 
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
+    choices = question.choice_set.all().order_by("-votes")
+    print(choices)
     try:
         selected_choice = question.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Choice.DoesNotExist):
@@ -46,7 +48,8 @@ def vote(request, question_id):
         voteTime = Vote(choice=selected_choice) # บันทึกเวลาที่ทำการ Vote ล่าสุด
         voteTime.save() # เก็บข้อมูล vote ลงฐานข้อมูล
         selected_choice.save() # บันทึกข้อมูล choice ลงฐานข้อมูล
+        context = {'question':question,"choices":choices}
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+        return render(request,"polls/result.html",context)

@@ -8,6 +8,7 @@ class Question(models.Model):
 
     question_text = models.CharField(max_length=200) #เก็บคำถาม
     pub_date = models.DateTimeField('date published') #เก็บวันที่ทำการสร้างคำถาม
+    allVote = models.IntegerField(default=0)
 
     def __str__(self):
         return self.question_text #แสดงคำถาม
