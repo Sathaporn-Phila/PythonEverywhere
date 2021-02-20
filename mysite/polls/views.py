@@ -8,14 +8,17 @@ from .models import Choice, Question, Vote
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
-    context_object_name = 'latest_question_list'
-
+    context = {'latest_question_list': Question.objects.all()}
     def get_queryset(self):
         """
         Return the last five published questions (not including those set to be
         published in the future)."""
-        return Question.objects.filter(pub_date__lte=timezone.now()).order_by('-pub_date')[:5] #แสดงคำถาม
+        return Question.objects.all().order_by("-allVote") #แสดงคำถาม
 
+def display(request):
+    context = {'latest_question_list': Question.objects.all().order_by("-allVote")}
+    print(context['latest_question_list'])
+    return render(request,"polls/index.html",context)
 
 class DetailView(generic.DetailView):
     model = Question
@@ -45,10 +48,12 @@ def vote(request, question_id):
         })
     else:
         selected_choice.votes += 1
+        question.allVote += 1
         voteTime = Vote(choice=selected_choice) # บันทึกเวลาที่ทำการ Vote ล่าสุด
         voteTime.save() # เก็บข้อมูล vote ลงฐานข้อมูล
         selected_choice.save() # บันทึกข้อมูล choice ลงฐานข้อมูล
         context = {'question':question,"choices":choices}
+        question.save()
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
