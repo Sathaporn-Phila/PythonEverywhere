@@ -1,0 +1,9 @@
+{% if vocabList %}
+    <ul>
+    {% for vocab in vocabList %}
+        <li><a href="/vocab/{{ vocab.id }}/">{{ vocab.vocab_text }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No vocab are available.</p>
+{% endif %}

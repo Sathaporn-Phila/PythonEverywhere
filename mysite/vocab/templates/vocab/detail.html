@@ -1,0 +1,8 @@
+<h1>{{ vocab.vocab_text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+<ul>
+{% for def in vocab.definition_set.all %}
+<li>{{ def.def_text }}</li>
+{% endfor %}
+</ul>
