@@ -17,7 +17,10 @@ def addWordPage(request):
     return render(request,"vocab/form.html")
 
 def addWord(request):
-    if request.POST.get('vocab') != "" and  request.POST.get('def') != "" :
+    forbiddenList = [""]
+    for i in range(1,201):
+        forbiddenList.append(" "*i)
+    if request.POST.get('vocab') not in forbiddenList and  request.POST.get('def') not in forbiddenList :
         word = Vocab(vocab_text = request.POST.get('vocab'))
         defi = Definition(def_text= request.POST.get('def'), vocab = word)
         word.save()
