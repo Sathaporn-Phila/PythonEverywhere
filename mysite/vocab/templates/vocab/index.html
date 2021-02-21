@@ -1,9 +1,11 @@
 {% if vocabList %}
+    <a href="{% url 'vocab:addPage' %}">เพิ่มคำศัพท์</a>
     <ul>
     {% for vocab in vocabList %}
         <li><a href="/vocab/{{ vocab.id }}/">{{ vocab.vocab_text }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
+    <a href="{% url 'vocab:addPage' %}">เพิ่มคำศัพท์</a>
     <p>No vocab are available.</p>
 {% endif %}

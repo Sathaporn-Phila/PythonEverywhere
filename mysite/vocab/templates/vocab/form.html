@@ -1,0 +1,8 @@
+<form action="{% url 'vocab:add' %}" method="post">
+    {% csrf_token %}
+        <label for="vocab">คำสัพ</label><br>
+        <input type="text" name="vocab"><br>
+        <label for="def">ความหมาย</label><br>
+        <input type="text" name="def" ><br><br>
+        <input type="submit" value="Submit">
+</form>
