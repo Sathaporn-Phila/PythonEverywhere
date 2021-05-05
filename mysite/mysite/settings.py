@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'vocab.apps.VocabConfig',
     'polls.apps.PollsConfig',
+    'BreakOutGame.apps.BreakoutgameConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
